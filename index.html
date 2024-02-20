@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Compiled and minified Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+
+<!-- Compiled and minified Materialize JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<!--<div id="modal1" class="modal">
+  <div class="modal-content">
+    <h4>Secret Key</h4>
+    <input type="text" id="modalInput" class="validate">
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat" onclick="checkText()">Validate</a>
+  </div>
+</div>-->
+
+<div class="container">
+  <h2 class="header">Tessa - For a Change</h2>
+
+  <div class="input-field">
+    <input type="text" id="domainInput" class="validate">
+    <label for="domainInput">Enter domain here</label>
+  </div>
+
+  <button class="btn waves-effect waves-light" onclick="changeURLs()" id="submitButton">Go</button>
+
+  <div id="results" style="display: none;">
+    <div class="input-field">
+      <input type="text" id="searchInput" onkeyup="searchURLs()" placeholder="Search for Topics">
+    </div>
+
+    <div id="urls"></div>
+  </div>
+</div>
+
+<script>
+// Assuming you have a predefined text
+//var predefinedText = "Tessa";
+
+// Assuming you have an array of URLs and corresponding labels
+var urls = ["page1", "page2", "page3", /*... up to 1000 URLs ...*/];
+var labels = ["Label 1", "Label 2", "Label 3", /*... up to 1000 labels ...*/];
+
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.modal');
+  var instances = M.Modal.init(elems);
+  instances[0].open();
+});
+
+/*function checkText() {
+  var inputText = document.getElementById("modalInput").value;
+  if (inputText === predefinedText) {
+    document.getElementById("domainInput").disabled = false;
+    document.getElementById("submitButton").disabled = false;
+  } else {
+    alert("Incorrect Key. Please refresh the page and try again.");
+  }
+}*/
+
+function changeURLs() {
+  var domain = document.getElementById("domainInput").value;
+  var urlsDiv = document.getElementById("urls");
+
+  // Clear the URLs div
+  urlsDiv.innerHTML = "";
+
+  // Generate a new paragraph for each URL
+  for (var i = 0; i < urls.length; i++) {
+    var p = document.createElement("p");
+    p.innerHTML = '<a href="http://' + domain + ':8080/' + urls[i] + '">' + labels[i] + '</a>';
+    p.classList.add("url");
+    urlsDiv.appendChild(p);
+  }
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("domainInput").disabled = true;  // Disable the domain input once entered
+}
+
+function searchURLs() {
+  var input, filter, urls, a, i, txtValue;
+  input = document.getElementById('searchInput');
+  filter = input.value.toUpperCase();
+  urls = document.getElementsByClassName('url');
+
+  for (i = 0; i < urls.length; i++) {
+    a = urls[i].getElementsByTagName('a')[0];
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      urls[i].style.display = "";
+    } else {
+      urls[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+</body>
+</html>
